@@ -1,0 +1,39 @@
+cff-version: 1.2.0
+message: "If you use LOGICWorld, please cite it as below."
+title: "LOGICWorld: Automated Deep Logic Generation for Interactive Reasoning in Embodied Agents"
+type: software
+authors:
+  - family-names: Liu
+    given-names: Gangao
+  - family-names: Xu
+    given-names: Huixin
+  - family-names: Wang
+    given-names: Mengna
+  - family-names: Li
+    given-names: Peng
+    email: lipeng@iscas.ac.cn
+    affiliation: Institute of Software, Chinese Academy of Sciences
+contact:
+  - family-names: Li
+    given-names: Peng
+    email: lipeng@iscas.ac.cn
+repository-code: "https://github.com/iGangao/logicworld"
+license: MulanPSL-2.0
+version: 0.1.0
+date-released: "2026-07-27"
+preferred-citation:
+  type: conference-paper
+  title: "LOGICWorld: Automated Deep Logic Generation for Interactive Reasoning in Embodied Agents"
+  authors:
+    - family-names: Liu
+      given-names: Gangao
+    - family-names: Xu
+      given-names: Huixin
+    - family-names: Wang
+      given-names: Mengna
+    - family-names: Li
+      given-names: Peng
+      email: lipeng@iscas.ac.cn
+  year: 2026
+  conference:
+    name: "IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)"
