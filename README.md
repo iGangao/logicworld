@@ -5,7 +5,7 @@
 **English** | [中文](README_ZH.md)
 
 <p align="center">
-  <img src="docs/assets/overview.png" alt="LOGICWorld overview" width="100%"/>
+  <img src="./docs/assets/overview.png" alt="LOGICWorld overview" width="100%"/>
 </p>
 
 <p align="center">
@@ -31,7 +31,7 @@ Agents must explore, update beliefs from feedback, evaluate propositional condit
 - **Interactive CLI** — play episodes in the terminal with `logicworld`
 
 <p align="center">
-  <img src="docs/assets/task_generator.png" alt="Task generation pipeline" width="85%"/>
+  <img src="./docs/assets/task_generator.png" alt="Task generation pipeline" width="85%"/>
 </p>
 
 <p align="center">
