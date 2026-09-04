@@ -22,6 +22,17 @@ Agents must explore, update beliefs from feedback, evaluate propositional condit
 
 ---
 
+## News
+
+- **2026-09-04 — Scenario-story task release.** Added `data/logicworld/test_v2.jsonl`,
+  which rewrites all 1,182 evaluation tasks across 14 task types as natural scenarios while
+  retaining each original instruction in `task_original`. The accompanying resumable generator
+  adds constraint-aware prompting, deterministic rule checks, feedback-guided retries, and audit
+  metadata. All released records pass the implemented rule checks; see
+  [Scenario-Story Generation Pipeline](#scenario-story-generation-pipeline) for scope and caveats.
+
+---
+
 ## Highlights
 
 - **Cognitive capability ladder** — Spatial Execution → State Tracking → Compositional Reasoning
@@ -162,6 +173,8 @@ The environment is **partially observable**: agents must open receptacles and in
 |---|---|---|
 | Train scenes | `data/train.jsonl` | 10,000 households (**not in Git**; ~331 MB, exceeds GitHub 100 MB limit) |
 | Test scenes | `data/test.jsonl` | 1,000 evaluation households (tracked) |
+| Original evaluation tasks | `data/logicworld/test.jsonl` | 1,182 compact task instructions |
+| Scenario evaluation tasks | `data/logicworld/test_v2.jsonl` | 1,182 scenario stories with generation audit metadata |
 | Item affordances | `logicworld/configs/items.json` | placeable / openable / toggleable / pickable |
 | Paper figures | `papers/images/` | overview, task generator, ablations |
 
@@ -185,6 +198,53 @@ python scripts/generate_tasks.py \
 
 ---
 
+## Scenario-Story Generation Pipeline
+
+The scenario-story pipeline turns the compact instructions in
+`data/logicworld/test.jsonl` into more natural, motivation-driven tasks without changing the
+required behavior. The released result is `data/logicworld/test_v2.jsonl`; source instructions
+remain unchanged and are copied to `task_original` for traceability.
+
+```text
+original task + verify expression
+              │
+              ▼
+constraint-aware story prompt
+              │
+              ▼
+LLM scenario rewrite
+              │
+              ▼
+deterministic validation ── fail ──► feedback retry (up to 3 attempts)
+              │ pass
+              ▼
+resumable JSONL output + audit metadata
+```
+
+The rewrite contract requires every condition and fallback to remain unresolved until the agent
+observes it; exact object names, quantities, action order, receptacle relations, negations, and
+the distinction between seeing and visiting must be preserved. Rewrites may add motivation and
+characters, but may not add or remove target objects, actions, or branches.
+
+Run the generator in resumable batches (it appends to
+`data/logicworld/test_stories.jsonl` by default):
+
+```bash
+export OPENAI_API_KEY=...
+export OPENAI_BASE_URL=...
+python scripts/generate_stories.py --batch 10
+```
+
+Each output record includes `task_original` and a `meta` block with retry counts, validation
+results, and source-verifier anomaly flags. In the released split, all **1,182** records across
+**14** task types pass the current deterministic checks; **71** records required at least one
+retry. These checks validate mechanically testable constraints, not full logical equivalence.
+Reverse DSL extraction, symbolic equivalence checking, an independent LLM judge, and stratified
+human review remain planned assurance layers. See [`pipeline.md`](docs/pipeline.md) for the detailed
+contract, implementation status, validation design, and known risks.
+
+---
+
 ## Repository Layout
 
 ```text
@@ -197,7 +257,7 @@ logicworld/
   paths.py
 data/                 # Scene JSONL
 examples/             # Minimal demos
-scripts/              # Task generation utilities
+scripts/              # Task and scenario-story generation utilities
 docs/assets/          # README figures
 papers/
   LOGICWorld_IROS2026.tex

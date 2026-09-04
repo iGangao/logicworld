@@ -20,6 +20,16 @@ LOGICWorld 是一个面向具身智能体的认知评测框架与 Gymnasium 环�
 
 ---
 
+## 最新动态
+
+- **2026-09-04 — 发布情景化任务数据。** 新增 `data/logicworld/test_v2.jsonl`，
+  将 14 种任务类型的全部 1,182 条评测指令改写为自然情景，并在 `task_original`
+  中保留原始指令。配套生成器支持约束感知提示、确定性规则检查、基于失败反馈的
+  重试、断点续跑和审计元数据。发布数据已全部通过当前实现的规则检查；检查范围与
+  注意事项见[情景化任务生成流程](#情景化任务生成流程)。
+
+---
+
 ## 主要特性
 
 - **认知能力阶梯** — 空间执行 → 状态追踪 → 组合推理
@@ -160,6 +170,8 @@ env = gym.make(
 |---|---|---|
 | 训练场景 | `data/train.jsonl` | 10,000 个家居（**不入库**；约 331 MB，超过 GitHub 100 MB 限制） |
 | 测试场景 | `data/test.jsonl` | 1,000 个评测家居（已跟踪） |
+| 原始评测任务 | `data/logicworld/test.jsonl` | 1,182 条紧凑任务指令 |
+| 情景化评测任务 | `data/logicworld/test_v2.jsonl` | 1,182 条情景化指令及生成审计元数据 |
 | 物体可操作性 | `logicworld/configs/items.json` | placeable / openable / toggleable / pickable |
 | 论文插图 | `papers/images/` | 概览图、任务生成器、消融实验等 |
 
@@ -183,6 +195,50 @@ python scripts/generate_tasks.py \
 
 ---
 
+## 情景化任务生成流程
+
+该流程把 `data/logicworld/test.jsonl` 中的紧凑指令改写为更自然、带动机的任务情景，
+同时保持智能体需要完成的行为不变。发布结果位于 `data/logicworld/test_v2.jsonl`；
+源数据不被覆盖，每条原始指令均复制到 `task_original`，便于追溯。
+
+```text
+原始 task + verify 表达式
+            │
+            ▼
+约束感知的故事提示词
+            │
+            ▼
+LLM 情景化改写
+            │
+            ▼
+确定性规则校验 ── 失败 ──► 携带反馈重试（最多 3 次）
+            │ 通过
+            ▼
+可断点续跑的 JSONL 输出 + 审计元数据
+```
+
+改写契约要求所有条件及兜底分支在智能体观测前保持未知，并精确保留对象名、数量、
+动作顺序、容器关系、否定，以及“看到”与“到访”的区别。改写可以增加人物和动机，
+但不得增删目标对象、动作或条件分支。
+
+生成器按批次运行并支持断点续跑（默认追加到
+`data/logicworld/test_stories.jsonl`）：
+
+```bash
+export OPENAI_API_KEY=...
+export OPENAI_BASE_URL=...
+python scripts/generate_stories.py --batch 10
+```
+
+每条输出均包含 `task_original`，以及记录重试次数、校验结果和源验证式异常标记的
+`meta` 字段。发布数据覆盖 **14** 种任务类型，共 **1,182** 条，全部通过当前的
+确定性规则检查，其中 **71** 条至少重试过一次。当前检查只覆盖可机械验证的约束，
+尚不等同于完整逻辑等价证明；反向 DSL 抽取、符号等价校验、独立 LLM 评审和分层人工
+抽检仍是后续质量保障工作。详细契约、实现状态、校验设计与风险见
+[`pipeline.md`](docs/pipeline.md)。
+
+---
+
 ## 仓库结构
 
 ```text
@@ -195,7 +251,7 @@ logicworld/
   paths.py
 data/                 # 场景 JSONL
 examples/             # 最小示例
-scripts/              # 任务生成脚本
+scripts/              # 任务与情景故事生成脚本
 docs/assets/          # README 插图
 papers/
   LOGICWorld_IROS2026.tex
