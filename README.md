@@ -18,7 +18,7 @@ LOGICWorld is a cognitive evaluation framework and Gymnasium environment for tes
 
 Agents must explore, update beliefs from feedback, evaluate propositional conditions, and replan non-linearly.
 
-<!-- **Paper:** [papers/LOGICWorld_IROS2026.pdf](papers/LOGICWorld_IROS2026.pdf) · **Source:** [papers/LOGICWorld_IROS2026.tex](papers/LOGICWorld_IROS2026.tex) -->
+**Paper:** [papers/LOGICWorld_IROS2026.pdf](papers/LOGICWorld_IROS2026.pdf)
 
 ---
 
@@ -68,6 +68,55 @@ T = \bigvee_{k=1}^{n}\big[f_k(c_{j_1},c_{j_2},\ldots;\mathcal{L}) \land g_k(V(t_
 where \(f_k\) composes state predicates (e.g. `Exist`, `Saw`, `Visited`) and \(g_k\) validates atomic subtask completion.
 
 **Benchmark scale (paper):** 1,182 evaluation tasks; Compositional Reasoning alone contains 532 logic tasks with long instructions (~201 tokens) and dense predicate sets.
+
+<p align="center">
+  <img src="./docs/assets/tab1_task_statistic.png" alt="Task subtype distribution by cognitive capability" width="70%"/>
+</p>
+
+<p align="center">
+  <em>Task subtype distribution across the three capability categories (paper Table I).</em>
+</p>
+
+---
+
+## Benchmark Results
+
+We evaluate proprietary and open-source LLMs as cognitive engines inside a unified agent framework (temperature 0, max 100 steps). Key findings from the paper:
+
+- **Cognitive complexity gap** — even the best model (Claude-4.5-Haiku) drops from 100% SR on Spatial Execution to 86% on State Tracking and 75.8% on Compositional Reasoning; small open-source models fall to 15% on Logic tasks.
+- **Robustness to structural complexity** — frontier models hold ~69% SR even at 52–132 predicates, while smaller models drop below 20% past 6.
+- **CoT dependency varies by model** — removing CoT costs Qwen3-Max over 32 points, while GPT-5-Mini barely moves, hinting at implicit reasoning in some frontier models.
+- **Action chunking** — cuts token consumption by ~14.3% with only −1.5% SR, amortizing LLM inference cost in long-horizon tasks.
+
+<p align="center">
+  <img src="./docs/assets/tab1_main_result.png" alt="Main results across capability categories" width="95%"/>
+</p>
+
+<p align="center">
+  <em>Performance across the three capability categories (paper Table II): Success Rate (SR), Success weighted by Path Length (SPL), and Average Actions per Turn (Act/T).</em>
+</p>
+
+<p align="center">
+  <img src="./docs/assets/fig4_predicates.png" alt="SR degradation with predicate count" width="45%"/>
+  &nbsp;
+  <img src="./docs/assets/tab2_sr_with_type.png" alt="SR heatmap across task subtypes" width="45%"/>
+</p>
+
+<p align="center">
+  <em>Left: success-rate degradation as predicate count increases. Right: SR heatmap across five task archetypes.</em>
+</p>
+
+<p align="center">
+  <img src="./docs/assets/fig3_sr_with_step.png" alt="SR vs average execution steps" width="45%"/>
+  &nbsp;
+  <img src="./docs/assets/fig5_wo_cot.png" alt="CoT ablation" width="45%"/>
+</p>
+
+<p align="center">
+  <em>Left: the efficiency–effectiveness frontier (SR vs. average steps). Right: success rates with and without CoT.</em>
+</p>
+
+Full experimental setup and analysis: see the [paper](papers/LOGICWorld_IROS2026.pdf).
 
 ---
 

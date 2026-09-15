@@ -66,6 +66,55 @@ T = \bigvee_{k=1}^{n}\big[f_k(c_{j_1},c_{j_2},\ldots;\mathcal{L}) \land g_k(V(t_
 
 **论文评测规模：** 共 1,182 个评测任务；仅组合推理层就包含 532 个逻辑任务，指令更长（约 201 tokens），谓词集合更密集。
 
+<p align="center">
+  <img src="docs/assets/tab1_task_statistic.png" alt="任务子类型分布" width="70%"/>
+</p>
+
+<p align="center">
+  <em>按认知能力层级划分的任务子类型分布（论文表 I）。</em>
+</p>
+
+---
+
+## 基准评测结果
+
+我们在统一的智能体框架内评测了多个闭源与开源 LLM 作为认知引擎（temperature 0，最多 100 步）。论文主要发现：
+
+- **认知复杂度差距** — 最优模型（Claude-4.5-Haiku）在空间执行层 SR 为 100%，状态追踪层降至 86%，组合推理层降至 75.8%；小型开源模型在逻辑任务上跌至 15%。
+- **对结构复杂度的鲁棒性** — 前沿模型在 52–132 个谓词时仍保持约 69% 的 SR，而较小的模型超过 6 个谓词后跌破 20%。
+- **CoT 依赖因模型而异** — 去除 CoT 使 Qwen3-Max 掉逾 32 个百分点，而 GPT-5-Mini 几乎不变，暗示部分前沿模型已具备隐式推理能力。
+- **动作分块（Action Chunking）** — token 消耗降低约 14.3%，SR 仅下降 1.5%，可摊薄长程任务中的推理开销。
+
+<p align="center">
+  <img src="docs/assets/tab1_main_result.png" alt="主结果表" width="95%"/>
+</p>
+
+<p align="center">
+  <em>三个能力层级上的整体表现（论文表 II）：成功率（SR）、按路径长度加权的成功率（SPL）、平均每轮动作数（Act/T）。</em>
+</p>
+
+<p align="center">
+  <img src="docs/assets/fig4_predicates.png" alt="SR 随谓词数量的衰减" width="45%"/>
+  &nbsp;
+  <img src="docs/assets/tab2_sr_with_type.png" alt="任务子类型 SR 热力图" width="45%"/>
+</p>
+
+<p align="center">
+  <em>左：成功率随谓词数量的衰减曲线。右：五种任务原型的成功率热力图。</em>
+</p>
+
+<p align="center">
+  <img src="docs/assets/fig3_sr_with_step.png" alt="SR 与平均步数" width="45%"/>
+  &nbsp;
+  <img src="docs/assets/fig5_wo_cot.png" alt="CoT 消融" width="45%"/>
+</p>
+
+<p align="center">
+  <em>左：效率—效果前沿（SR 与平均执行步数）。右：有无 CoT 的成功率对比。</em>
+</p>
+
+完整实验设置与分析请见[论文](papers/LOGICWorld_IROS2026.pdf)。
+
 ---
 
 ## 安装
