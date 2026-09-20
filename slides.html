@@ -122,13 +122,14 @@
       <sup>1</sup> Institute of Software, Chinese Academy of Sciences, Beijing, China<br>
       <sup>2</sup> University of Chinese Academy of Sciences, Beijing, China<br>
       <sup>3</sup> University of Chinese Academy of Sciences, Nanjing, China<br>
-      <sup>4</sup> Nanjing University of Posts and Telecommunications, Nanjing, China
+      <sup>4</sup> Nanjing University of Posts and Telecommunications, Nanjing, China<br>
+      <sup>*</sup> Corresponding author: lipeng@iscas.ac.cn
     </span>
   </p>
 </section>
 
 <!-- ============ Slide 2 · Motivation ============ -->
-<section class="slide" data-time="0:12">
+<section class="slide" data-time="0:10">
   <h2><span class="kicker">Motivation</span>Real instructions are conditional, not sequential</h2>
   <div class="quote">"If there is a Coke in the fridge, bring it to me; otherwise, go to the kitchen and turn off the light."</div>
   <div class="row">
@@ -144,7 +145,7 @@
 </section>
 
 <!-- ============ Slide 3 · Three levels + task stats ============ -->
-<section class="slide" data-time="0:36">
+<section class="slide" data-time="0:35">
   <h2><span class="kicker">A Cognitive Capability Framework</span>Three levels of cognitive demand</h2>
   <div class="row">
     <div class="col" style="flex:0 0 46%;">
@@ -160,14 +161,14 @@
 </section>
 
 <!-- ============ Slide 4 · Overview figure ============ -->
-<section class="slide" data-time="0:56">
+<section class="slide" data-time="1:00">
   <h2><span class="kicker">Overview</span>From static goals to dynamic logic</h2>
   <img class="figure-wide" src="assets/fig1_overview.png" alt="LOGICWorld overview: static vs dynamic tasks, generated task descriptions and verification functions">
   <p class="caption"><b>Left:</b> traditional static tasks with a fixed, linear path · <b>Middle:</b> LOGICWorld, execution governed by deep propositional logic · <b>Right:</b> auto-generated task descriptions + goal verification functions</p>
 </section>
 
 <!-- ============ Slide 5 · Pipeline ============ -->
-<section class="slide" data-time="1:14">
+<section class="slide" data-time="1:12">
   <h2><span class="kicker">Automated Task Generation</span>Logic synthesis pipeline</h2>
   <div class="row">
     <div class="col" style="flex:0 0 44%;">
@@ -185,7 +186,7 @@
 </section>
 
 <!-- ============ Slide 6 · Scenario stories ============ -->
-<section class="slide" data-time="1:36">
+<section class="slide" data-time="1:32">
   <h2><span class="kicker">Scenario Story Rewriting</span>From if-else lists to natural narratives</h2>
   <div class="row" style="align-items:stretch;">
     <div class="col card" style="flex:0 0 30%;">
@@ -237,7 +238,7 @@
 </section>
 
 <!-- ============ Slide 9 · Per-type results ============ -->
-<section class="slide" data-time="2:34">
+<section class="slide" data-time="2:38">
   <h2><span class="kicker">Where Models Struggle</span>Success rate by task subtype</h2>
   <div class="row">
     <div class="col" style="flex:0 0 52%;">
@@ -251,7 +252,7 @@
 </section>
 
 <!-- ============ Slide 10 · Ablations ============ -->
-<section class="slide" data-time="2:48">
+<section class="slide" data-time="2:50">
   <h2><span class="kicker">Ablations</span>What seems to help</h2>
   <div class="row">
     <div class="col" style="flex:0 0 55%;">
@@ -277,14 +278,15 @@
 </section>
 
 <!-- ============ Slide 11 · Conclusion ============ -->
-<section class="slide" data-time="3:00">
+<section class="slide" data-time="2:58">
   <h2><span class="kicker">Takeaways</span>LOGICWorld</h2>
   <ul style="list-style:none; font-size:1.35rem; line-height:2.1;">
     <li>🔷 A benchmark with <b>automated deep propositional logic</b> in embodied instructions, plus scenario-story rewrites</li>
     <li>🔷 An attempt to bridge <b>classical planning rigor</b> (DNF-style verification) with open-world LLM agents</li>
-    <li>🔷 Results suggest the bottleneck is not motor control, but <b>logical state-machine tracking</b></li>
+    <li>🔷 Results suggest the bottleneck is not navigation or grounding, but <b>logical state-machine tracking</b></li>
   </ul>
   <p class="tagline">Code, tasks and scenes are open-sourced — we hope the community finds it useful.</p>
+  <p class="small" style="margin-top:2.5vh;"><a href="https://github.com/iGangao/logicworld" style="color:var(--accent); text-decoration:none;">github.com/iGangao/logicworld</a></p>
   <p class="meta" style="position:static; margin-top:4vh;">Thank you! &nbsp;·&nbsp; Questions welcome</p>
 </section>
 
