@@ -92,6 +92,8 @@
 
   .caption { font-size: .92rem; color: var(--muted); text-align: center; margin-top: 1vh; }
 
+  .pipelist li { font-size: 1.02rem; line-height: 1.65; color: var(--text); }
+
   .statgrid { display:grid; grid-template-columns: repeat(3, 1fr); gap: 1.8vw; margin-top: 2vh; }
   .stat { background: var(--panel); border-radius: 14px; padding: 2.2vh 1.2vw; text-align:center; border:1px solid #e2e8f0; box-shadow: 0 1px 3px rgba(15,23,42,.06); }
   .stat .num { font-size: 2.3rem; font-weight: 800; color: var(--accent); }
@@ -129,7 +131,7 @@
 </section>
 
 <!-- ============ Slide 2 · Motivation ============ -->
-<section class="slide" data-time="0:10">
+<section class="slide" data-time="0:11">
   <h2><span class="kicker">Motivation</span>Real instructions are conditional, not sequential</h2>
   <div class="quote">"If there is a Coke in the fridge, bring it to me; otherwise, go to the kitchen and turn off the light."</div>
   <div class="row">
@@ -145,7 +147,7 @@
 </section>
 
 <!-- ============ Slide 3 · Three levels + task stats ============ -->
-<section class="slide" data-time="0:35">
+<section class="slide" data-time="0:37">
   <h2><span class="kicker">A Cognitive Capability Framework</span>Three levels of cognitive demand</h2>
   <div class="row">
     <div class="col" style="flex:0 0 46%;">
@@ -160,33 +162,32 @@
   </div>
 </section>
 
-<!-- ============ Slide 4 · Overview figure ============ -->
-<section class="slide" data-time="1:00">
-  <h2><span class="kicker">Overview</span>From static goals to dynamic logic</h2>
-  <img class="figure-wide" src="assets/fig1_overview.png" alt="LOGICWorld overview: static vs dynamic tasks, generated task descriptions and verification functions">
-  <p class="caption"><b>Left:</b> traditional static tasks with a fixed, linear path · <b>Middle:</b> LOGICWorld, execution governed by deep propositional logic · <b>Right:</b> auto-generated task descriptions + goal verification functions</p>
-</section>
-
-<!-- ============ Slide 5 · Pipeline ============ -->
-<section class="slide" data-time="1:12">
-  <h2><span class="kicker">Automated Task Generation</span>Logic synthesis pipeline</h2>
-  <div class="row">
-    <div class="col" style="flex:0 0 44%;">
-      <img class="figure" style="width:100%;" src="assets/fig2_task_gen_pipeline.png" alt="Task description and verification function synthesis pipeline">
+<!-- ============ Slide 4 · Overview + pipeline ============ -->
+<section class="slide" data-time="0:56">
+  <h2><span class="kicker">Automated Task Generation</span>From static goals to verifiable logic</h2>
+  <div class="row" style="align-items:stretch;">
+    <div class="col card" style="flex:0 0 40%;">
+      <h3>Static → dynamic tasks</h3>
+      <img src="assets/fig1_overview.png" alt="LOGICWorld overview: static vs dynamic tasks, generated task descriptions and verification functions" style="width:100%; border-radius:8px; margin-top:1vh;">
+      <p class="small muted" style="margin-top:1vh;">Execution governed by deep propositional logic, not a fixed linear path.</p>
     </div>
-    <div class="col">
-      <ol style="padding-left:1.3em; font-size:1.12rem; line-height:1.9;">
-        <li><b>Atomic tasks</b> combined with AND / OR + verification functions</li>
-        <li><b>Logical conditions</b> expanded with AND, OR, NOT (some forced True for feasibility)</li>
-        <li><b>Composition</b> — conditions bound to task verification</li>
-        <li><b>Fallback branch</b> — helps ensure every task is satisfiable</li>
-      </ol>
+    <div class="col card" style="flex:0 0 60%;">
+      <h3>Logic synthesis pipeline</h3>
+      <div class="row" style="align-items:center;">
+        <img src="assets/fig2_task_gen_pipeline.png" alt="Task description and verification function synthesis pipeline" style="width:52%; border-radius:8px;">
+        <ol class="pipelist" style="padding-left:1.2em; width:48%;">
+          <li><b>Atomic tasks</b> combined with AND / OR, each with a verifier</li>
+          <li><b>Logical conditions</b> expanded, bound to task verification</li>
+          <li><b>Fallback branch</b> — every task is satisfiable</li>
+        </ol>
+      </div>
+      <p class="small muted" style="margin-top:1.2vh;">Output: a natural-language instruction and a machine-checkable verifier, generated together.</p>
     </div>
   </div>
 </section>
 
 <!-- ============ Slide 6 · Scenario stories ============ -->
-<section class="slide" data-time="1:32">
+<section class="slide" data-time="1:09">
   <h2><span class="kicker">Scenario Story Rewriting</span>From if-else lists to natural narratives</h2>
   <div class="row" style="align-items:stretch;">
     <div class="col card" style="flex:0 0 30%;">
@@ -205,26 +206,8 @@
   <p class="small muted" style="margin-top:2.5vh;">Same logical content — closer to how people actually speak. Fidelity rules forbid adding or dropping conditions, actions, objects, or orderings.</p>
 </section>
 
-<!-- ============ Slide 7 · Formulation ============ -->
-<section class="slide" data-time="1:56">
-  <h2><span class="kicker">Formulation</span>A unified verification function</h2>
-  <div class="formula">
-    T &nbsp;=&nbsp; ⋁<sub>k=1…n</sub> &nbsp;[ f<sub>k</sub>(c<sub>1</sub>, c<sub>2</sub>, …) &nbsp;∧&nbsp; g<sub>k</sub>(V(t<sub>a</sub>), V(t<sub>b</sub>), …) ]
-  </div>
-  <div class="row">
-    <div class="col card">
-      <h3>Partial observability</h3>
-      <p>States like <span style="color:var(--text)">Exist(Apple in Fridge)</span> are never broadcast — the agent must <b>open the fridge</b> to resolve them.</p>
-    </div>
-    <div class="col card">
-      <h3>Action chunking agent</h3>
-      <p>Reflect → Reason → Plan → emit <b>1–k primitive actions</b> per turn. Chunks halt on failure with fresh feedback.</p>
-    </div>
-  </div>
-</section>
-
-<!-- ============ Slide 8 · Main results ============ -->
-<section class="slide" data-time="2:14">
+<!-- ============ Slide 6 · Main results ============ -->
+<section class="slide" data-time="1:22">
   <h2><span class="kicker">Main Results</span>Performance degrades under deeper logic</h2>
   <div class="row">
     <div class="col" style="flex:0 0 58%;">
@@ -237,8 +220,8 @@
   <p class="caption">Best model (Claude-4.5-Haiku): 100% → 86% → 75.8% across the three levels · Qwen3-4B drops to 15% on Logic tasks</p>
 </section>
 
-<!-- ============ Slide 9 · Per-type results ============ -->
-<section class="slide" data-time="2:38">
+<!-- ============ Slide 7 · Per-type results ============ -->
+<section class="slide" data-time="1:43">
   <h2><span class="kicker">Where Models Struggle</span>Success rate by task subtype</h2>
   <div class="row">
     <div class="col" style="flex:0 0 52%;">
@@ -251,8 +234,8 @@
   <p class="caption">Steep decline from Condition to Priority and Logic subtypes · frontier models reach high SR in 22–25 steps, smaller models stall below 45% SR</p>
 </section>
 
-<!-- ============ Slide 10 · Ablations ============ -->
-<section class="slide" data-time="2:50">
+<!-- ============ Slide 8 · Ablations ============ -->
+<section class="slide" data-time="1:58">
   <h2><span class="kicker">Ablations</span>What seems to help</h2>
   <div class="row">
     <div class="col" style="flex:0 0 55%;">
@@ -277,8 +260,8 @@
   </div>
 </section>
 
-<!-- ============ Slide 11 · Conclusion ============ -->
-<section class="slide" data-time="2:58">
+<!-- ============ Slide 9 · Conclusion ============ -->
+<section class="slide" data-time="2:11">
   <h2><span class="kicker">Takeaways</span>LOGICWorld</h2>
   <ul style="list-style:none; font-size:1.35rem; line-height:2.1;">
     <li>🔷 A benchmark with <b>automated deep propositional logic</b> in embodied instructions, plus scenario-story rewrites</li>
